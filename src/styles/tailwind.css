@@ -1,5 +1,6 @@
+@import './theme.css';
+/* tw-animate-css disabled — re-enable after addressing Tailwind --spacing integration */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import 'tw-animate-css';

@@ -1,5 +1,6 @@
 :root {
   --font-size: 16px;
+  --spacing: 0.25rem;
   
   /* Sax Tools - Paleta quente com marrom/âmbar e teal */
   --color-primary: #8B4513; /* Saddle Brown */

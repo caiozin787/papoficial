@@ -1,0 +1,66 @@
+# Node
+node_modules/
+/.pnp/
+.pnp.js
+
+# pnpm
+/.pnpm-store/
+pnpm-lock.yaml
+
+# Vite / build
+/dist/
+/build/
+/.vite/
+/.vite-temp/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs and editors
+.idea/
+.vscode/
+.history/
+
+# Env
+.env
+.env.*.local
+.env.local
+.env.production
+
+# Coverage
+/coverage/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+
+# Backups and artifacts
+/backups/
+*.bundle
+*.zip
+
+# Large media and uploads (keep out of repo, serve from public or CDN)
+/public/uploads/
+/dist/uploads/
+
+# Build outputs and caches
+/.cache/
+/.parcel-cache/
+/.next/
+
+# Misc
+*.tgz
+.vscode-test/
+
+# OS generated files
+ehthumbs.db
+Icon

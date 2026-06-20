@@ -1,5 +1,6 @@
 import { Play } from 'lucide-react';
 import Link from 'next/link';
+import { HeroVideo } from './HeroVideo';
 
 export function Hero() {
   return (
@@ -56,18 +57,7 @@ export function Hero() {
           </div>
 
           <div className="relative lg:h-[500px] h-[300px]">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl shadow-2xl overflow-hidden">
-              <div className="w-full h-full flex items-center justify-center bg-primary/10">
-                <div className="text-center space-y-4">
-                  <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-primary/20 backdrop-blur-sm flex items-center justify-center mx-auto border-4 border-primary/30">
-                    <Play className="h-12 w-12 md:h-16 md:w-16 text-primary" fill="currentColor" />
-                  </div>
-                  <p className="text-sm md:text-base text-foreground/60 font-medium">
-                    Toque, pratique e evolua
-                  </p>
-                </div>
-              </div>
-            </div>
+            <HeroVideo />
           </div>
         </div>
       </div>

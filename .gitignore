@@ -69,3 +69,6 @@ Icon
 # Test artifacts
 /tmp-shots/
 /tmp-downloads/
+
+# Arquivos-fonte grandes (vídeo/fotos originais) já processados e enviados ao Supabase Storage
+/download/

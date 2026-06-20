@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Ear, Volume2, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -33,9 +33,15 @@ function playQuestion(question: Question) {
 
 export default function EarTrainingPage() {
   const [mode, setMode] = useState<Mode>('interval');
-  const [question, setQuestion] = useState<Question>(() => generateQuestion('interval'));
+  const [question, setQuestion] = useState<Question | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
   const [score, setScore] = useState({ correct: 0, total: 0 });
+
+  // Gerada só no cliente: usa números aleatórios, então não pode rodar durante o SSR
+  // (senão o servidor e o navegador produzem perguntas diferentes e o React quebra a hidratação).
+  useEffect(() => {
+    setQuestion(generateQuestion('interval'));
+  }, []);
 
   const handleModeChange = (newMode: Mode) => {
     setMode(newMode);
@@ -49,7 +55,7 @@ export default function EarTrainingPage() {
   };
 
   const handleAnswer = (option: string) => {
-    if (selected) return;
+    if (selected || !question) return;
     setSelected(option);
     setScore((s) => ({ correct: s.correct + (option === question.answer ? 1 : 0), total: s.total + 1 }));
   };
@@ -86,14 +92,14 @@ export default function EarTrainingPage() {
             Acertos: <span className="font-semibold text-foreground">{score.correct}</span> / {score.total}
           </div>
 
-          <Button size="lg" onClick={() => playQuestion(question)} className="mb-8">
+          <Button size="lg" onClick={() => question && playQuestion(question)} disabled={!question} className="mb-8">
             <Volume2 className="w-5 h-5 mr-2" />
             Tocar
           </Button>
 
           <div className="grid grid-cols-2 gap-3 mb-6">
-            {question.options.map((option) => {
-              const isCorrect = option === question.answer;
+            {question?.options.map((option) => {
+              const isCorrect = option === question!.answer;
               const isSelected = option === selected;
               let style = 'border-border bg-background hover:border-primary/50';
               if (selected) {

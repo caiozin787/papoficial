@@ -56,6 +56,7 @@ Thumbs.db
 /.cache/
 /.parcel-cache/
 /.next/
+*.tsbuildinfo
 
 # Misc
 *.tgz
@@ -64,3 +65,7 @@ Thumbs.db
 # OS generated files
 ehthumbs.db
 Icon
+
+# Test artifacts
+/tmp-shots/
+/tmp-downloads/

@@ -31,8 +31,11 @@ export default function CircleOfFifthsPage() {
         <div className="relative" style={{ width: RADIUS * 2 + 80, height: RADIUS * 2 + 80 }}>
           {CIRCLE_OF_FIFTHS.map((key, index) => {
             const angle = (index * 30 - 90) * (Math.PI / 180);
-            const x = RADIUS * Math.cos(angle);
-            const y = RADIUS * Math.sin(angle);
+            // Arredondado para evitar cauda de ponto flutuante (ex.: -80.00000000000007) que o
+            // navegador normaliza de forma diferente do servidor ao serializar o estilo inline,
+            // disparando um falso positivo de mismatch de hidratação no React.
+            const x = Math.round(RADIUS * Math.cos(angle));
+            const y = Math.round(RADIUS * Math.sin(angle));
             const isSelected = index === selectedIndex;
             return (
               <button

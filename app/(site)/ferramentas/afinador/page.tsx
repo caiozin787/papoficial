@@ -1,14 +1,18 @@
 'use client';
 
+import { useState } from 'react';
 import { Headphones, Mic, MicOff, Power } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { usePitchDetector } from '@/lib/audio/use-pitch-detector';
+import { SAX_INSTRUMENTS, concertToWritten, type SaxInstrument } from '@/lib/theory/transposition';
 
 export default function TunerPage() {
   const { isActive, isLoading, permission, errorMessage, reading, start, stop } = usePitchDetector();
+  const [instrument, setInstrument] = useState<SaxInstrument>(SAX_INSTRUMENTS[0]);
 
   const cents = reading?.cents ?? 0;
+  const displayNote = reading ? concertToWritten(reading.note, reading.octave, instrument) : null;
   const getTuningColor = () => {
     const absCents = Math.abs(cents);
     if (absCents <= 5) return 'text-green-500';
@@ -28,6 +32,20 @@ export default function TunerPage() {
         <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
           Afine seu saxofone com precisão. Veja a visualização de frequência e ajuste sua afinação em tempo real.
         </p>
+      </div>
+
+      <div className="flex justify-center gap-2 mb-8">
+        {SAX_INSTRUMENTS.map((inst) => (
+          <button
+            key={inst}
+            onClick={() => setInstrument(inst)}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+              instrument === inst ? 'bg-primary text-primary-foreground shadow-sm' : 'bg-muted text-foreground/70 hover:bg-muted/80'
+            }`}
+          >
+            {inst}
+          </button>
+        ))}
       </div>
 
       <div className="max-w-2xl mx-auto mb-8">
@@ -68,8 +86,15 @@ export default function TunerPage() {
           )}
 
           <div className="text-center mb-8">
-            <div className={`text-8xl font-bold mb-2 ${getTuningColor()}`}>{reading ? `${reading.note}${reading.octave}` : '--'}</div>
+            <div className={`text-8xl font-bold mb-2 ${getTuningColor()}`}>
+              {displayNote ? `${displayNote.root}${displayNote.octave}` : '--'}
+            </div>
             <div className="text-3xl text-muted-foreground">{reading ? `${reading.frequency} Hz` : '--'}</div>
+            {reading && (
+              <div className="text-sm text-muted-foreground/70 mt-1">
+                afinação concertante: {reading.note}{reading.octave}
+              </div>
+            )}
           </div>
 
           <div className="relative h-32 mb-8 bg-muted/30 rounded-lg overflow-hidden">

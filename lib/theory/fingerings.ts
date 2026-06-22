@@ -33,5 +33,3 @@ export const FINGERINGS: Fingering[] = [
   { note: 'F5', label: 'Fá agudo', octaveKey: true, keys: ['LH1', 'LH2', 'LH3', 'RH1'] },
   { note: 'F#5', label: 'Fá# agudo', octaveKey: true, keys: ['LH1', 'LH2', 'LH3'] },
 ];
-
-export const FINGERING_INSTRUMENTS = ['Sax Alto', 'Sax Tenor', 'Sax Soprano'] as const;

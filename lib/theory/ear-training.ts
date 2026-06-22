@@ -1,4 +1,5 @@
-import { buildNote, rootToIndex, type PlayableNote } from './notes';
+import { ALL_ROOTS, buildNote, type PlayableNote } from './notes';
+import { concertToWrittenName } from './transposition';
 import { CHORD_FORMULAS } from './chords';
 import { SCALE_FORMULAS } from './scales';
 
@@ -6,20 +7,10 @@ export const EAR_TRAINING_CHORDS = ['Maior', 'Menor', 'Diminuto', 'Aumentado', '
 
 export const EAR_TRAINING_SCALES = ['Maior (Jônio)', 'Menor Natural (Eólio)', 'Pentatônica Maior', 'Pentatônica Menor', 'Blues'];
 
-const ROOT_POOL = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B'];
+const ROOT_POOL = [...ALL_ROOTS];
 
 function randomItem<T>(items: readonly T[]): T {
   return items[Math.floor(Math.random() * items.length)];
-}
-
-/**
- * Sax alto é afinado em Mi♭: o que soa (afinação concertante) fica uma 6ª Maior abaixo do que
- * o saxofonista lê/digita. Ou seja, pra descrever uma altura concertante com o nome que o sax
- * alto usaria, soma-se 9 semitons (6ª Maior) ao nome da nota concertante.
- */
-function toAltoSaxWrittenName(concertName: string): string {
-  const transposedIndex = (rootToIndex(concertName) + 9) % 12;
-  return ROOT_POOL[transposedIndex];
 }
 
 export interface NoteQuestion {
@@ -36,7 +27,7 @@ export interface NoteQuestion {
 export function generateNoteQuestion(): NoteQuestion {
   const concertName = randomItem(ROOT_POOL);
   const note = buildNote(concertName, 0, 4);
-  const writtenName = toAltoSaxWrittenName(concertName);
+  const writtenName = concertToWrittenName(concertName, 'Sax Alto');
   const options = shuffledOptions(writtenName, ROOT_POOL);
   return { type: 'note', note, answer: writtenName, options };
 }

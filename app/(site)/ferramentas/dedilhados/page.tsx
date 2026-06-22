@@ -2,19 +2,36 @@
 
 import { useState } from 'react';
 import { Hand, Volume2 } from 'lucide-react';
-import { FINGERINGS, FINGERING_INSTRUMENTS } from '@/lib/theory/fingerings';
-import { buildNote } from '@/lib/theory/notes';
+import { FINGERINGS } from '@/lib/theory/fingerings';
+import { ALL_ROOTS, rootToIndex, midiFromRootOctave, frequencyFromMidi } from '@/lib/theory/notes';
+import { SAX_INSTRUMENTS, TRANSPOSITION_SEMITONES, type SaxInstrument } from '@/lib/theory/transposition';
 import { playNote } from '@/lib/audio/play-tone';
 
-function frequencyForNote(note: string): number {
-  const match = note.match(/^([A-G]b?)(\d)$/);
-  if (!match) return 440;
-  const [, root, octave] = match;
-  return buildNote(root, 0, Number(octave)).frequency;
+function parseWrittenNote(note: string): { root: string; octave: number } | null {
+  const match = note.match(/^([A-G][b#]?)(\d)$/);
+  if (!match) return null;
+  return { root: match[1], octave: Number(match[2]) };
+}
+
+function concertFrequencyForNote(note: string, instrument: SaxInstrument): number {
+  const parsed = parseWrittenNote(note);
+  if (!parsed) return 440;
+  const writtenMidi = midiFromRootOctave(rootToIndex(parsed.root), parsed.octave);
+  return frequencyFromMidi(writtenMidi - TRANSPOSITION_SEMITONES[instrument]);
+}
+
+function concertNameForNote(note: string, instrument: SaxInstrument): string {
+  const parsed = parseWrittenNote(note);
+  if (!parsed) return note;
+  const writtenMidi = midiFromRootOctave(rootToIndex(parsed.root), parsed.octave);
+  const concertMidi = writtenMidi - TRANSPOSITION_SEMITONES[instrument];
+  const concertOctave = Math.floor(concertMidi / 12) - 1;
+  const concertPitchClass = ALL_ROOTS[((concertMidi % 12) + 12) % 12];
+  return `${concertPitchClass}${concertOctave}`;
 }
 
 export default function FingeringChartPage() {
-  const [instrument, setInstrument] = useState<(typeof FINGERING_INSTRUMENTS)[number]>(FINGERING_INSTRUMENTS[0]);
+  const [instrument, setInstrument] = useState<SaxInstrument>(SAX_INSTRUMENTS[0]);
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
@@ -29,7 +46,7 @@ export default function FingeringChartPage() {
       </div>
 
       <div className="flex justify-center gap-2 mb-8">
-        {FINGERING_INSTRUMENTS.map((inst) => (
+        {SAX_INSTRUMENTS.map((inst) => (
           <button
             key={inst}
             onClick={() => setInstrument(inst)}
@@ -46,7 +63,7 @@ export default function FingeringChartPage() {
         <p className="text-sm text-foreground/70">
           <strong className="text-accent">Importante:</strong> a digitação é a mesma para {instrument.toLowerCase()} e para os
           demais saxofones — o que muda entre eles é a nota concreta que sai do instrumento (transposição), não a
-          posição dos dedos sobre as chaves.
+          posição dos dedos sobre as chaves. O som de cada carta já está na afinação certa do {instrument.toLowerCase()}.
         </p>
       </div>
 
@@ -54,13 +71,16 @@ export default function FingeringChartPage() {
         {FINGERINGS.map((fingering) => (
           <button
             key={fingering.note}
-            onClick={() => playNote(frequencyForNote(fingering.note))}
+            onClick={() => playNote(concertFrequencyForNote(fingering.note, instrument))}
             className="text-left bg-card rounded-xl border border-border p-5 shadow-sm hover:shadow-lg hover:border-primary/50 transition-all group"
           >
             <div className="flex items-center justify-between mb-3">
               <div>
                 <div className="text-xl font-bold text-primary">{fingering.note}</div>
                 <div className="text-xs text-muted-foreground">{fingering.label}</div>
+                <div className="text-xs text-muted-foreground/70 mt-0.5">
+                  soa como {concertNameForNote(fingering.note, instrument)}
+                </div>
               </div>
               <Volume2 className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
             </div>

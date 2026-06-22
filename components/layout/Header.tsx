@@ -1,6 +1,6 @@
 'use client';
 
-import { Music, Menu, X, LogIn, User as UserIcon, LayoutDashboard, LogOut } from 'lucide-react';
+import { Music, Menu, X, LogIn, User as UserIcon, LayoutDashboard, ShieldCheck, LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Link from 'next/link';
@@ -75,6 +75,16 @@ export function Header({ profile }: { profile: Profile | null }) {
                       <LayoutDashboard className="h-4 w-4" />
                       Dashboard
                     </Link>
+                    {profile.role === 'admin' && (
+                      <Link
+                        href="/admin"
+                        onClick={() => setUserMenuOpen(false)}
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
+                      >
+                        <ShieldCheck className="h-4 w-4" />
+                        Painel Admin
+                      </Link>
+                    )}
                     <button
                       onClick={handleSignOut}
                       className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-destructive hover:bg-muted transition-colors"
@@ -128,6 +138,16 @@ export function Header({ profile }: { profile: Profile | null }) {
                   <LayoutDashboard className="h-4 w-4" />
                   Dashboard
                 </Link>
+                {profile.role === 'admin' && (
+                  <Link
+                    href="/admin"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-2 px-3 py-2 text-base font-medium text-foreground/80 hover:text-primary hover:bg-muted rounded-md transition-colors"
+                  >
+                    <ShieldCheck className="h-4 w-4" />
+                    Painel Admin
+                  </Link>
+                )}
                 <button
                   onClick={handleSignOut}
                   className="flex w-full items-center gap-2 px-3 py-2 text-base font-medium text-destructive hover:bg-muted rounded-md transition-colors"

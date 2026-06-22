@@ -32,7 +32,6 @@ export const PLAYBACK_FIELDS: FieldConfig[] = [
   { name: 'bpm', label: 'BPM', type: 'number', required: true },
   { name: 'duration_seconds', label: 'Duração (segundos)', type: 'number' },
   { name: 'description', label: 'Descrição', type: 'textarea', required: true },
-  { name: 'chord_chart_url', label: 'URL da cifra (opcional)', type: 'text' },
   { name: 'audio_url', label: 'URL do áudio (opcional)', type: 'text' },
   { name: 'youtube_id', label: 'Link ou ID do vídeo no YouTube (opcional)', type: 'text', placeholder: 'ex: https://youtu.be/dQw4w9WgXcQ' },
   { name: 'published', label: 'Publicado', type: 'checkbox' },

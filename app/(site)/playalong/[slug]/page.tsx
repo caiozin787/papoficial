@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft, Music, Gauge, Clock } from 'lucide-react';
 import { AudioPlayer } from '@/components/content/AudioPlayer';
 import { YoutubePlayer } from '@/components/content/YoutubePlayer';
-import { PdfViewer } from '@/components/content/PdfViewer';
 import { FavoriteButton } from '@/components/content/FavoriteButton';
 import { getPlaybackBySlug, PLAYBACK_STYLE_LABELS } from '@/lib/playbacks';
 import { CONTENT_LEVEL_LABELS, CONTENT_LEVEL_COLORS } from '@/lib/content-levels';
@@ -68,16 +67,9 @@ export default async function PlaybackDetailPage({ params }: { params: Promise<{
           <FavoriteButton type="playback" contentId={playback.id} userId={user?.id ?? null} initialFavorited={favorited} />
         </div>
 
-        <div className="space-y-8">
-          <div>
-            <h2 className="text-lg font-semibold text-foreground mb-3">Playback</h2>
-            {playback.audio_url ? <AudioPlayer audioUrl={playback.audio_url} /> : <YoutubePlayer youtubeId={playback.youtube_id} />}
-          </div>
-
-          <div>
-            <h2 className="text-lg font-semibold text-foreground mb-3">Cifra</h2>
-            <PdfViewer pdfUrl={playback.chord_chart_url} />
-          </div>
+        <div>
+          <h2 className="text-lg font-semibold text-foreground mb-3">Playback</h2>
+          {playback.audio_url ? <AudioPlayer audioUrl={playback.audio_url} /> : <YoutubePlayer youtubeId={playback.youtube_id} />}
         </div>
       </div>
     </div>

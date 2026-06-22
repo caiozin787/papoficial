@@ -103,14 +103,14 @@ export function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
                 <Mail className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                <a href="mailto:contato@saxtools.com" className="text-foreground/70 hover:text-primary transition-colors">
-                  contato@saxtools.com
+                <a href="mailto:saxtools1@gmail.com" className="text-foreground/70 hover:text-primary transition-colors">
+                  saxtools1@gmail.com
                 </a>
               </li>
               <li className="text-foreground/70">
                 Segunda a Sexta
                 <br />
-                9h às 18h (horário de Brasília)
+                9h às 18h (horário de Portugal)
               </li>
             </ul>
 

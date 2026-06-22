@@ -43,8 +43,8 @@ export default function ContactPage() {
                 </div>
                 <h3 className="font-semibold text-card-foreground mb-2">E-mail</h3>
                 <p className="text-sm text-muted-foreground mb-2">Respondemos em até 24 horas</p>
-                <a href="mailto:contato@saxtools.com" className="text-primary hover:text-primary/80 text-sm font-medium">
-                  contato@saxtools.com
+                <a href="mailto:saxtools1@gmail.com" className="text-primary hover:text-primary/80 text-sm font-medium">
+                  saxtools1@gmail.com
                 </a>
               </div>
 
@@ -65,7 +65,7 @@ export default function ContactPage() {
                 <p className="text-sm text-muted-foreground">
                   Segunda a Sexta
                   <br />
-                  9h às 18h (horário de Brasília)
+                  9h às 18h (horário de Portugal)
                 </p>
               </div>
 
@@ -75,9 +75,9 @@ export default function ContactPage() {
                 </div>
                 <h3 className="font-semibold text-card-foreground mb-2">Localização</h3>
                 <p className="text-sm text-muted-foreground">
-                  São Paulo, SP
+                  Portugal, PT
                   <br />
-                  Brasil
+                  Europe/Lisbon
                 </p>
               </div>
             </div>

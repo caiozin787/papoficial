@@ -10,16 +10,26 @@ export function MessageThread({
   otherUserId,
   initialMessages,
   sendMessageAction,
+  compact = false,
 }: {
   currentUserId: string;
   otherUserId: string;
   initialMessages: Message[];
   sendMessageAction: (recipientId: string, content: string) => Promise<{ error?: string }>;
+  /** Sem borda/cantos/altura fixa própria — pra caber dentro de outro container (ex.: o chat flutuante). */
+  compact?: boolean;
 }) {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [draft, setDraft] = useState('');
   const [isSending, setIsSending] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  // O chat flutuante reaproveita esta mesma instância ao trocar de conversa e busca o
+  // histórico de forma assíncrona depois de já ter montado — sem isso, a tela nunca
+  // mostraria as mensagens carregadas (useState só usa o valor inicial na montagem).
+  useEffect(() => {
+    setMessages(initialMessages);
+  }, [initialMessages]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -81,7 +91,7 @@ export function MessageThread({
   };
 
   return (
-    <div className="bg-card rounded-xl border border-border shadow-sm flex flex-col h-[60vh]">
+    <div className={compact ? 'flex flex-col h-full' : 'bg-card rounded-xl border border-border shadow-sm flex flex-col h-[60vh]'}>
       <div className="flex-1 overflow-y-auto p-4 space-y-3">
         {messages.length === 0 && (
           <p className="text-sm text-muted-foreground text-center py-8">Diga olá para começar a conversa.</p>

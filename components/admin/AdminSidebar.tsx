@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { LayoutDashboard, BookOpen, BookMarked, Dumbbell, Radio, FileText, ArrowLeft, LogOut, Music } from 'lucide-react';
+import { LayoutDashboard, BookOpen, BookMarked, Dumbbell, Radio, FileText, Users, ArrowLeft, LogOut, Music } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
 const NAV_ITEMS = [
   { href: '/admin', label: 'Visão Geral', icon: LayoutDashboard },
+  { href: '/admin/usuarios', label: 'Usuários', icon: Users },
   { href: '/admin/teorias', label: 'Teorias', icon: BookOpen },
   { href: '/admin/metodos', label: 'Métodos', icon: BookMarked },
   { href: '/admin/exercicios', label: 'Exercícios', icon: Dumbbell },

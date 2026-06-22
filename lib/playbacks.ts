@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import type { ContentLevel } from '@/lib/content-levels';
 
-export type PlaybackStyle = 'jazz' | 'blues' | 'gospel' | 'pop' | 'bossa_nova';
+export type PlaybackStyle = 'jazz' | 'blues' | 'gospel' | 'pop' | 'bossa_nova' | 'soul';
 export type TempoRange = 'lento' | 'medio' | 'rapido';
 
 export const PLAYBACK_STYLE_LABELS: Record<PlaybackStyle, string> = {
@@ -10,6 +10,7 @@ export const PLAYBACK_STYLE_LABELS: Record<PlaybackStyle, string> = {
   gospel: 'Gospel',
   pop: 'Pop',
   bossa_nova: 'Bossa Nova',
+  soul: 'Soul',
 };
 
 export const TEMPO_RANGE_LABELS: Record<TempoRange, string> = {

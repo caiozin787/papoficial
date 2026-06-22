@@ -22,6 +22,19 @@ function bool(formData: FormData, key: string): boolean {
   return formData.get(key) === 'on';
 }
 
+/** Aceita o link completo do YouTube (qualquer formato comum) ou só o ID, e extrai o ID puro. */
+function extractYoutubeId(input: string): string | null {
+  if (!input) return null;
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/|youtube\.com\/shorts\/)([\w-]{11})/,
+  ];
+  for (const pattern of patterns) {
+    const match = input.match(pattern);
+    if (match) return match[1];
+  }
+  return input; // já deve ser só o ID
+}
+
 function buildPayload(formData: FormData) {
   return {
     slug: str(formData, 'slug'),
@@ -33,7 +46,10 @@ function buildPayload(formData: FormData) {
     level: str(formData, 'level'),
     chord_chart_url: nullableStr(formData, 'chord_chart_url'),
     audio_url: nullableStr(formData, 'audio_url'),
-    youtube_id: nullableStr(formData, 'youtube_id'),
+    youtube_id: (() => {
+      const raw = nullableStr(formData, 'youtube_id');
+      return raw ? extractYoutubeId(raw) : null;
+    })(),
     duration_seconds: nullableNum(formData, 'duration_seconds'),
     published: bool(formData, 'published'),
   };

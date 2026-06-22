@@ -4,7 +4,7 @@ import { PlaybackCard } from '@/components/content/PlaybackCard';
 import { getPlaybacks, getDistinctKeys, PLAYBACK_STYLE_LABELS, TEMPO_RANGE_LABELS, type PlaybackStyle, type TempoRange } from '@/lib/playbacks';
 import { CONTENT_LEVELS, CONTENT_LEVEL_LABELS, type ContentLevel } from '@/lib/content-levels';
 
-const STYLES: PlaybackStyle[] = ['jazz', 'blues', 'gospel', 'pop', 'bossa_nova'];
+const STYLES: PlaybackStyle[] = ['jazz', 'blues', 'gospel', 'pop', 'bossa_nova', 'soul'];
 const TEMPO_RANGES: TempoRange[] = ['lento', 'medio', 'rapido'];
 
 interface Filters {

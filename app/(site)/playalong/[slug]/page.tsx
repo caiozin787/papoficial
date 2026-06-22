@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, Music, Gauge, Clock } from 'lucide-react';
 import { AudioPlayer } from '@/components/content/AudioPlayer';
+import { YoutubePlayer } from '@/components/content/YoutubePlayer';
 import { PdfViewer } from '@/components/content/PdfViewer';
 import { FavoriteButton } from '@/components/content/FavoriteButton';
 import { getPlaybackBySlug, PLAYBACK_STYLE_LABELS } from '@/lib/playbacks';
@@ -70,7 +71,7 @@ export default async function PlaybackDetailPage({ params }: { params: Promise<{
         <div className="space-y-8">
           <div>
             <h2 className="text-lg font-semibold text-foreground mb-3">Playback</h2>
-            <AudioPlayer audioUrl={playback.audio_url} />
+            {playback.audio_url ? <AudioPlayer audioUrl={playback.audio_url} /> : <YoutubePlayer youtubeId={playback.youtube_id} />}
           </div>
 
           <div>

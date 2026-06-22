@@ -14,6 +14,7 @@ export const PLAYBACK_FIELDS: FieldConfig[] = [
       { value: 'gospel', label: 'Gospel' },
       { value: 'pop', label: 'Pop' },
       { value: 'bossa_nova', label: 'Bossa Nova' },
+      { value: 'soul', label: 'Soul' },
     ],
   },
   {
@@ -33,6 +34,6 @@ export const PLAYBACK_FIELDS: FieldConfig[] = [
   { name: 'description', label: 'Descrição', type: 'textarea', required: true },
   { name: 'chord_chart_url', label: 'URL da cifra (opcional)', type: 'text' },
   { name: 'audio_url', label: 'URL do áudio (opcional)', type: 'text' },
-  { name: 'youtube_id', label: 'ID do vídeo no YouTube (opcional)', type: 'text' },
+  { name: 'youtube_id', label: 'Link ou ID do vídeo no YouTube (opcional)', type: 'text', placeholder: 'ex: https://youtu.be/dQw4w9WgXcQ' },
   { name: 'published', label: 'Publicado', type: 'checkbox' },
 ];

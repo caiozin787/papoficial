@@ -2,21 +2,6 @@ import { buildNote, type PlayableNote } from './notes';
 import { CHORD_FORMULAS } from './chords';
 import { SCALE_FORMULAS } from './scales';
 
-export const EAR_TRAINING_INTERVALS: { name: string; semitones: number }[] = [
-  { name: '2ª menor', semitones: 1 },
-  { name: '2ª Maior', semitones: 2 },
-  { name: '3ª menor', semitones: 3 },
-  { name: '3ª Maior', semitones: 4 },
-  { name: '4ª Justa', semitones: 5 },
-  { name: '4ª Aumentada / 5ª Diminuta', semitones: 6 },
-  { name: '5ª Justa', semitones: 7 },
-  { name: '6ª menor', semitones: 8 },
-  { name: '6ª Maior', semitones: 9 },
-  { name: '7ª menor', semitones: 10 },
-  { name: '7ª Maior', semitones: 11 },
-  { name: '8ª (Oitava)', semitones: 12 },
-];
-
 export const EAR_TRAINING_CHORDS = ['Maior', 'Menor', 'Diminuto', 'Aumentado', 'Maior 7 (maj7)', 'Menor 7 (m7)', 'Dominante 7 (7)'];
 
 export const EAR_TRAINING_SCALES = ['Maior (Jônio)', 'Menor Natural (Eólio)', 'Pentatônica Maior', 'Pentatônica Menor', 'Blues'];
@@ -27,21 +12,19 @@ function randomItem<T>(items: readonly T[]): T {
   return items[Math.floor(Math.random() * items.length)];
 }
 
-export interface IntervalQuestion {
-  type: 'interval';
-  root: PlayableNote;
-  target: PlayableNote;
+export interface NoteQuestion {
+  type: 'note';
+  note: PlayableNote;
   answer: string;
   options: string[];
 }
 
-export function generateIntervalQuestion(): IntervalQuestion {
+/** Toca uma única nota aleatória; a pessoa precisa identificar de ouvido qual nota é. */
+export function generateNoteQuestion(): NoteQuestion {
   const rootName = randomItem(ROOT_POOL);
-  const root = buildNote(rootName, 0, 4);
-  const correct = randomItem(EAR_TRAINING_INTERVALS);
-  const target = buildNote(rootName, correct.semitones, 4);
-  const options = shuffledOptions(correct.name, EAR_TRAINING_INTERVALS.map((i) => i.name));
-  return { type: 'interval', root, target, answer: correct.name, options };
+  const note = buildNote(rootName, 0, 4);
+  const options = shuffledOptions(rootName, ROOT_POOL);
+  return { type: 'note', note, answer: rootName, options };
 }
 
 export interface ChordQuestion {

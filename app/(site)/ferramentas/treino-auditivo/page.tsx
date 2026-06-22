@@ -4,26 +4,25 @@ import { useEffect, useState } from 'react';
 import { Ear, Volume2, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
-  generateIntervalQuestion, generateChordQuestion, generateScaleQuestion,
-  type IntervalQuestion, type ChordQuestion, type ScaleQuestion,
+  generateNoteQuestion, generateChordQuestion, generateScaleQuestion,
+  type NoteQuestion, type ChordQuestion, type ScaleQuestion,
 } from '@/lib/theory/ear-training';
 import { playNote, playChordTones, playSequence } from '@/lib/audio/play-tone';
 
-type Mode = 'interval' | 'chord' | 'scale';
-type Question = IntervalQuestion | ChordQuestion | ScaleQuestion;
+type Mode = 'note' | 'chord' | 'scale';
+type Question = NoteQuestion | ChordQuestion | ScaleQuestion;
 
-const MODE_LABELS: Record<Mode, string> = { interval: 'Intervalos', chord: 'Acordes', scale: 'Escalas' };
+const MODE_LABELS: Record<Mode, string> = { note: 'Notas', chord: 'Acordes', scale: 'Escalas' };
 
 function generateQuestion(mode: Mode): Question {
-  if (mode === 'interval') return generateIntervalQuestion();
+  if (mode === 'note') return generateNoteQuestion();
   if (mode === 'chord') return generateChordQuestion();
   return generateScaleQuestion();
 }
 
 function playQuestion(question: Question) {
-  if (question.type === 'interval') {
-    playNote(question.root.frequency, 0.6);
-    setTimeout(() => playNote(question.target.frequency, 0.6), 700);
+  if (question.type === 'note') {
+    playNote(question.note.frequency, 1);
   } else if (question.type === 'chord') {
     playChordTones(question.tones.map((t) => t.frequency), 1.4);
   } else {
@@ -32,7 +31,7 @@ function playQuestion(question: Question) {
 }
 
 export default function EarTrainingPage() {
-  const [mode, setMode] = useState<Mode>('interval');
+  const [mode, setMode] = useState<Mode>('note');
   const [question, setQuestion] = useState<Question | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
   const [score, setScore] = useState({ correct: 0, total: 0 });
@@ -40,7 +39,7 @@ export default function EarTrainingPage() {
   // Gerada só no cliente: usa números aleatórios, então não pode rodar durante o SSR
   // (senão o servidor e o navegador produzem perguntas diferentes e o React quebra a hidratação).
   useEffect(() => {
-    setQuestion(generateQuestion('interval'));
+    setQuestion(generateQuestion('note'));
   }, []);
 
   const handleModeChange = (newMode: Mode) => {
@@ -68,7 +67,7 @@ export default function EarTrainingPage() {
         </div>
         <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Treino Auditivo</h1>
         <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
-          Desenvolva seu ouvido reconhecendo intervalos, acordes e escalas.
+          Desenvolva seu ouvido reconhecendo notas, acordes e escalas.
         </p>
       </div>
 

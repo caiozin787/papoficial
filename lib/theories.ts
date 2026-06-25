@@ -18,6 +18,7 @@ export interface Theory {
   category: TheoryCategory;
   pdf_url: string | null;
   cover_image_url: string | null;
+  card_image_url: string | null;
   order_index: number;
   published: boolean;
   created_at: string;
@@ -60,6 +61,22 @@ export async function getRelatedExerciseIds(theoryId: string): Promise<string[]>
   const { data, error } = await supabase.from('theory_exercises').select('exercise_id').eq('theory_id', theoryId);
   if (error) throw error;
   return (data ?? []).map((r) => r.exercise_id);
+}
+
+export async function getTheoriesForExercise(exerciseId: string): Promise<Theory[]> {
+  const supabase = await createClient();
+  const { data: relations, error: relError } = await supabase
+    .from('theory_exercises')
+    .select('theory_id')
+    .eq('exercise_id', exerciseId);
+  if (relError) throw relError;
+
+  const theoryIds = (relations ?? []).map((r) => r.theory_id);
+  if (theoryIds.length === 0) return [];
+
+  const { data, error } = await supabase.from('theories').select('*').in('id', theoryIds);
+  if (error) throw error;
+  return data ?? [];
 }
 
 export async function getRelatedTheories(theoryId: string): Promise<Theory[]> {

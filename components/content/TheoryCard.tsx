@@ -8,9 +8,9 @@ export function TheoryCard({ theory }: { theory: Theory }) {
       href={`/teoria/${theory.slug}`}
       className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm hover:shadow-lg hover:border-primary/50 transition-all"
     >
-      {theory.cover_image_url && (
+      {theory.card_image_url && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={theory.cover_image_url} alt={theory.title} className="h-32 w-full object-cover" />
+        <img src={theory.card_image_url} alt={theory.title} className="h-32 w-full object-cover" />
       )}
       <div className="flex flex-col flex-1 p-6">
         <div className="flex items-center gap-2 mb-3">

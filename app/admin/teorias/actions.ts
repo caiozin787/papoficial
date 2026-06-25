@@ -27,6 +27,7 @@ function buildPayload(formData: FormData) {
     category: str(formData, 'category'),
     pdf_url: nullableStr(formData, 'pdf_url'),
     cover_image_url: nullableStr(formData, 'cover_image_url'),
+    card_image_url: nullableStr(formData, 'card_image_url'),
     order_index: num(formData, 'order_index'),
     published: bool(formData, 'published'),
   };

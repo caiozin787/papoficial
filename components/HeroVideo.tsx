@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import { Play } from 'lucide-react';
 
 const VIDEO_URL = 'https://xnfxxahrhwietfbyjdxj.supabase.co/storage/v1/object/public/videos/home/hero-video.mp4';
-const POSTER_URL = 'https://xnfxxahrhwietfbyjdxj.supabase.co/storage/v1/object/public/images/home/hero-video-poster.jpg';
+const POSTER_URL = 'https://xnfxxahrhwietfbyjdxj.supabase.co/storage/v1/object/public/images/home/hero-video-poster.png';
 
 export function HeroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -25,7 +25,7 @@ export function HeroVideo() {
         playsInline
         onPause={() => setPlaying(false)}
         onEnded={() => setPlaying(false)}
-        className="h-full w-full object-contain bg-foreground/5"
+        className="h-full w-full object-cover"
       />
       {!playing && (
         <button

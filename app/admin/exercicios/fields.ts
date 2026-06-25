@@ -32,5 +32,6 @@ export const EXERCISE_FIELDS: FieldConfig[] = [
   { name: 'materials_needed', label: 'Material necessário', type: 'text' },
   { name: 'pdf_url', label: 'URL do PDF (opcional)', type: 'text' },
   { name: 'audio_url', label: 'URL do áudio (opcional)', type: 'text' },
+  { name: 'cover_image_url', label: 'URL da imagem de capa (opcional)', type: 'text' },
   { name: 'published', label: 'Publicado', type: 'checkbox' },
 ];

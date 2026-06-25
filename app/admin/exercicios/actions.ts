@@ -31,6 +31,7 @@ function buildPayload(formData: FormData) {
     materials_needed: nullableStr(formData, 'materials_needed'),
     pdf_url: nullableStr(formData, 'pdf_url'),
     audio_url: nullableStr(formData, 'audio_url'),
+    cover_image_url: nullableStr(formData, 'cover_image_url'),
     published: bool(formData, 'published'),
   };
 }

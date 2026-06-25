@@ -22,6 +22,7 @@ export interface Exercise {
   materials_needed: string | null;
   pdf_url: string | null;
   audio_url: string | null;
+  cover_image_url: string | null;
   published: boolean;
   created_at: string;
   updated_at: string;

@@ -59,8 +59,13 @@ export function Header({ profile }: { profile: Profile | null }) {
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                   className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-medium text-foreground hover:bg-muted transition-colors"
                 >
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-primary">
-                    <UserIcon className="h-3.5 w-3.5" />
+                  <span className="flex h-6 w-6 items-center justify-center overflow-hidden rounded-full bg-primary/10 text-primary">
+                    {profile.avatar_url ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={profile.avatar_url} alt="" className="h-full w-full object-cover" />
+                    ) : (
+                      <UserIcon className="h-3.5 w-3.5" />
+                    )}
                   </span>
                   {profile.full_name?.split(' ')[0] ?? 'Conta'}
                 </button>

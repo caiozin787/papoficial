@@ -1,5 +1,6 @@
-import { User as UserIcon, Calendar } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import { ProfileForm } from '@/components/dashboard/ProfileForm';
+import { AvatarUpload } from '@/components/dashboard/AvatarUpload';
 import { getCurrentUser, getCurrentProfile } from '@/lib/auth';
 
 export default async function DashboardProfilePage() {
@@ -15,9 +16,7 @@ export default async function DashboardProfilePage() {
 
       <div className="bg-card rounded-xl border border-border p-8 shadow-sm">
         <div className="flex items-center gap-4 mb-8">
-          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary">
-            <UserIcon className="h-10 w-10" />
-          </div>
+          <AvatarUpload avatarUrl={profile.avatar_url} />
           <div>
             <p className="text-lg font-semibold text-foreground">{profile.full_name || 'Sem nome'}</p>
             <p className="text-sm text-muted-foreground">{user.email}</p>

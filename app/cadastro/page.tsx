@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Music, Mail, Lock, User, Eye, EyeOff, Loader2, MailCheck } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import { sendWelcomeEmail } from './actions';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -37,6 +38,8 @@ export default function SignupPage() {
       setError(signUpError.message === 'User already registered' ? 'Já existe uma conta com este e-mail.' : 'Não foi possível criar a conta. Tente novamente.');
       return;
     }
+
+    void sendWelcomeEmail(formData.name, formData.email);
 
     if (data.session) {
       router.push('/dashboard');

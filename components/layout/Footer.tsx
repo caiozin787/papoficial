@@ -1,5 +1,6 @@
 import { Music, Mail } from 'lucide-react';
 import Link from 'next/link';
+import { NewsletterForm } from './NewsletterForm';
 
 const FERRAMENTAS_LINKS = [
   { href: '/ferramentas/escalas', label: 'Escalas Interativas' },
@@ -105,16 +106,7 @@ export function Footer() {
 
             <div className="mt-6">
               <p className="text-sm text-foreground/70 mb-2">Receba novidades</p>
-              <div className="flex gap-2">
-                <input
-                  type="email"
-                  placeholder="Seu e-mail"
-                  className="flex-1 rounded-lg border border-border bg-input-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-                <button className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
-                  OK
-                </button>
-              </div>
+              <NewsletterForm />
             </div>
           </div>
         </div>

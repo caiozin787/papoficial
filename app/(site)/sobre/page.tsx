@@ -63,15 +63,12 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-2 items-center">
             <div className="relative">
-              <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-primary/20 to-accent/20">
-                <div className="w-full h-full flex items-center justify-center bg-primary/10">
-                  <div className="text-center space-y-4 p-8">
-                    <div className="w-32 h-32 rounded-full bg-primary/20 backdrop-blur-sm flex items-center justify-center mx-auto border-4 border-primary/30">
-                      <Music className="h-16 w-16 text-primary" />
-                    </div>
-                    <p className="text-base text-foreground/60 font-medium">Equipe Sax Tools</p>
-                  </div>
-                </div>
+              <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl">
+                <img
+                  src="https://xnfxxahrhwietfbyjdxj.supabase.co/storage/v1/object/public/images/home/hero-video-poster.png"
+                  alt="Equipe Sax Tools"
+                  className="h-full w-full object-cover"
+                />
               </div>
             </div>
 

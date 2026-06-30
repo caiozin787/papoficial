@@ -2,14 +2,34 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Mail, MapPin, Send, Clock, MessageCircle } from 'lucide-react';
+import { Mail, MapPin, Send, Clock, MessageCircle, Loader2 } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Contato:', formData);
+    setError('');
+    setIsSubmitting(true);
+
+    const supabase = createClient();
+    const { error: insertError } = await supabase.from('contact_messages').insert({
+      name: formData.name,
+      email: formData.email,
+      subject: formData.subject,
+      message: formData.message,
+    });
+
+    setIsSubmitting(false);
+
+    if (insertError) {
+      setError('Não foi possível enviar a mensagem. Tenta novamente.');
+      return;
+    }
+
     alert('Mensagem enviada com sucesso! Retornaremos em breve.');
     setFormData({ name: '', email: '', subject: '', message: '' });
   };
@@ -138,6 +158,12 @@ export default function ContactPage() {
                     />
                   </div>
 
+                  {error && (
+                    <div className="rounded-lg bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm text-red-600">
+                      {error}
+                    </div>
+                  )}
+
                   <p className="text-xs text-muted-foreground">
                     Ao enviar este formulário, você concorda com nossa{' '}
                     <Link href="/privacidade" className="text-primary hover:text-primary/80">Política de Privacidade</Link>.
@@ -145,10 +171,11 @@ export default function ContactPage() {
 
                   <button
                     type="submit"
-                    className="w-full inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground py-3 px-6 rounded-lg font-medium hover:bg-primary/90 transition-colors shadow-md hover:shadow-lg"
+                    disabled={isSubmitting}
+                    className="w-full inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground py-3 px-6 rounded-lg font-medium hover:bg-primary/90 transition-colors shadow-md hover:shadow-lg disabled:opacity-60"
                   >
-                    <Send className="h-5 w-5" />
-                    Enviar Mensagem
+                    {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
+                    {isSubmitting ? 'Enviando...' : 'Enviar Mensagem'}
                   </button>
                 </form>
               </div>

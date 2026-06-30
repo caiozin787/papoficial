@@ -1,9 +1,10 @@
 import { getAudioContext } from './audio-context';
 
 /**
- * Gravações reais de saxofone (uma nota sustentada por ficheiro), usadas como base para
- * tocar qualquer nota dentro do alcance do instrumento. Quando a nota pedida não tem
- * gravação própria, usa-se a amostra mais próxima e ajusta-se a altura (playbackRate).
+ * Gravações reais de saxofone (uma nota sustentada por ficheiro). Só é usada uma gravação
+ * quando existe uma para a nota exata pedida — sem esticar/ajustar a altura de uma vizinha,
+ * para evitar qualquer risco de soar na oitava errada. Notas sem gravação própria caem
+ * para o timbre sintetizado (ver play-tone.ts).
  */
 const BASE_URL = 'https://xnfxxahrhwietfbyjdxj.supabase.co/storage/v1/object/public/audio/sax-samples/';
 
@@ -29,21 +30,22 @@ function freqToMidi(frequency: number): number {
 // Notas disponíveis (gravações reais). Conforme mais notas forem gravadas, basta
 // acrescentar aqui o nome do ficheiro correspondente em sax-samples/<nota>.wav.
 const AVAILABLE_NOTES = [
-  'A#3', 'B3', 'C4', 'C#4', 'D#4', 'E4', 'F#4', 'G4', 'G#4', 'A4', 'A#4',
-  'C5', 'C#5', 'D#5', 'F5', 'F#5', 'G5', 'G#5',
-  'C6', 'C#6', 'E6',
+  'D#4', 'E4', 'F#4', 'G4', 'A4', 'A#4',
+  'C5', 'D#5', 'G5', 'G#5',
+  'C#6', 'E6',
 ];
 
-const SAMPLES = AVAILABLE_NOTES.map((note) => ({ note, midi: noteNameToMidi(note) })).sort((a, b) => a.midi - b.midi);
+const SAMPLES = AVAILABLE_NOTES.map((note) => ({ note, midi: noteNameToMidi(note) }));
+const SAMPLES_BY_MIDI = new Map(SAMPLES.map((s) => [s.midi, s]));
 
-function nearestSample(targetMidi: number) {
-  let best = SAMPLES[0];
-  let bestDist = Infinity;
-  for (const s of SAMPLES) {
-    const dist = Math.abs(s.midi - targetMidi);
-    if (dist < bestDist) { bestDist = dist; best = s; }
-  }
-  return best;
+/**
+ * Só devolve uma amostra quando existe uma gravação exata para a nota pedida (sem
+ * ajuste de altura). Esticar a gravação para notas vizinhas (playbackRate) chegou a
+ * produzir, em alguns casos, um resultado uma oitava abaixo do esperado — por segurança,
+ * preferimos cair no timbre sintetizado nesses casos a arriscar tocar a nota errada.
+ */
+function exactSample(targetMidi: number) {
+  return SAMPLES_BY_MIDI.get(targetMidi) ?? null;
 }
 
 // "#" não é seguro num URL (é interpretado como fragmento), por isso os ficheiros usam
@@ -71,12 +73,14 @@ export function preloadSaxSamples(): void {
 }
 
 /**
- * Toca uma nota usando a gravação real mais próxima, ajustando a altura via playbackRate.
- * Mantém o mesmo envelope de amplitude (ataque/sustain/release) das outras ferramentas.
+ * Toca uma nota usando a gravação real, só quando existe uma gravação exata para essa
+ * nota (sem ajuste de altura). Caso contrário, rejeita — quem chama (play-tone.ts) cai
+ * para o timbre sintetizado. Mantém o mesmo envelope de amplitude das outras ferramentas.
  */
 export async function playSampledNote(frequency: number, durationSec = 0.6, volume = 0.5): Promise<void> {
-  const targetMidi = freqToMidi(frequency);
-  const sample = nearestSample(targetMidi);
+  const targetMidi = Math.round(freqToMidi(frequency));
+  const sample = exactSample(targetMidi);
+  if (!sample) throw new Error('Sem gravação exata para esta nota');
   const buffer = await loadSample(sample.note);
 
   const ctx = getAudioContext();
@@ -86,7 +90,6 @@ export async function playSampledNote(frequency: number, durationSec = 0.6, volu
 
   const source = ctx.createBufferSource();
   source.buffer = buffer;
-  source.playbackRate.value = 2 ** ((targetMidi - sample.midi) / 12);
 
   const gain = ctx.createGain();
   gain.gain.setValueAtTime(0, now);

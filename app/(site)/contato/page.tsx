@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Mail, MapPin, Send, Clock, MessageCircle, Loader2 } from 'lucide-react';
-import { createClient } from '@/lib/supabase/client';
+import { sendContactMessage } from './actions';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
@@ -15,18 +15,12 @@ export default function ContactPage() {
     setError('');
     setIsSubmitting(true);
 
-    const supabase = createClient();
-    const { error: insertError } = await supabase.from('contact_messages').insert({
-      name: formData.name,
-      email: formData.email,
-      subject: formData.subject,
-      message: formData.message,
-    });
+    const { error: sendError } = await sendContactMessage(formData);
 
     setIsSubmitting(false);
 
-    if (insertError) {
-      setError('Não foi possível enviar a mensagem. Tenta novamente.');
+    if (sendError) {
+      setError(sendError);
       return;
     }
 

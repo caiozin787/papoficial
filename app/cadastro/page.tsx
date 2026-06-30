@@ -158,8 +158,8 @@ export default function SignupPage() {
               <input type="checkbox" required className="mt-1 rounded border-border" />
               <span className="text-sm text-foreground/70">
                 Eu concordo com os{' '}
-                <a href="#" className="text-primary hover:text-primary/80">Termos de Uso</a> e{' '}
-                <a href="#" className="text-primary hover:text-primary/80">Política de Privacidade</a>
+                <Link href="/termos" className="text-primary hover:text-primary/80">Termos de Uso</Link> e{' '}
+                <Link href="/privacidade" className="text-primary hover:text-primary/80">Política de Privacidade</Link>
               </span>
             </label>
 

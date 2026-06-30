@@ -1,4 +1,4 @@
-import { Music, Mail, Facebook, Instagram, Youtube, Twitter } from 'lucide-react';
+import { Music, Mail } from 'lucide-react';
 import Link from 'next/link';
 
 const FERRAMENTAS_LINKS = [
@@ -21,17 +21,6 @@ export function Footer() {
             <p className="text-sm text-foreground/70">
               A plataforma completa para saxofonistas evoluírem sua técnica e musicalidade.
             </p>
-            <div className="flex gap-3">
-              {[Facebook, Instagram, Youtube, Twitter].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
-            </div>
           </div>
 
           <div>
@@ -86,14 +75,14 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <a href="#" className="text-foreground/70 hover:text-primary transition-colors">
+                <Link href="/faq" className="text-foreground/70 hover:text-primary transition-colors">
                   FAQ
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-foreground/70 hover:text-primary transition-colors">
+                <Link href="/suporte" className="text-foreground/70 hover:text-primary transition-colors">
                   Suporte
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -134,9 +123,9 @@ export function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-foreground/60">
             <p>© 2026 Sax Tools. Todos os direitos reservados.</p>
             <div className="flex gap-6">
-              <a href="#" className="hover:text-primary transition-colors">Privacidade</a>
-              <a href="#" className="hover:text-primary transition-colors">Termos de Uso</a>
-              <a href="#" className="hover:text-primary transition-colors">Cookies</a>
+              <Link href="/privacidade" className="hover:text-primary transition-colors">Privacidade</Link>
+              <Link href="/termos" className="hover:text-primary transition-colors">Termos de Uso</Link>
+              <Link href="/cookies" className="hover:text-primary transition-colors">Cookies</Link>
             </div>
           </div>
         </div>

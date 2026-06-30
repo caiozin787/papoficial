@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Mail, MapPin, Send, Clock, MessageCircle } from 'lucide-react';
 
 export default function ContactPage() {
@@ -139,7 +140,7 @@ export default function ContactPage() {
 
                   <p className="text-xs text-muted-foreground">
                     Ao enviar este formulário, você concorda com nossa{' '}
-                    <a href="#" className="text-primary hover:text-primary/80">Política de Privacidade</a>.
+                    <Link href="/privacidade" className="text-primary hover:text-primary/80">Política de Privacidade</Link>.
                   </p>
 
                   <button

@@ -1,4 +1,5 @@
 import { getAudioContext } from './audio-context';
+import { playSampledNote, preloadSaxSamples } from './sax-sampler';
 
 /** Toca um beep simples (metrônomo, cliques). Duração curta, envelope com decaimento. */
 export function playClick(frequency: number, volume = 0.8, durationSec = 0.1): void {
@@ -31,12 +32,25 @@ function getNoiseBuffer(ctx: AudioContext): AudioBuffer {
 }
 
 /**
- * Toca uma nota sustentada (escalas, arpejos, treino auditivo) com um timbre que imita
- * um saxofone: dente-de-serra rico em harmônicos + leve detune (chorus), filtro passa-baixa
- * com envelope (brilho no ataque, mais quente no sustain), vibrato sutil e um "chiado" de
- * respiração/palheta no início.
+ * Toca uma nota sustentada (escalas, arpejos, treino auditivo). Usa gravações reais de
+ * saxofone como base (ver sax-sampler.ts), com a amostra mais próxima ajustada de altura
+ * para a nota pedida. Se as gravações ainda não tiverem carregado (ex. sem rede), recorre
+ * ao timbre sintetizado abaixo como reserva.
  */
+let preloadStarted = false;
+
 export function playNote(frequency: number, durationSec = 0.6, volume = 0.5): void {
+  if (!preloadStarted) {
+    preloadStarted = true;
+    preloadSaxSamples();
+  }
+  playSampledNote(frequency, durationSec, volume).catch(() => {
+    playSynthesizedNote(frequency, durationSec, volume);
+  });
+}
+
+/** Preserva o timbre sintetizado anterior (dente-de-serra + vibrato) como reserva. */
+function playSynthesizedNote(frequency: number, durationSec = 0.6, volume = 0.5): void {
   const ctx = getAudioContext();
   const now = ctx.currentTime;
   const attack = Math.min(0.04, durationSec * 0.15);

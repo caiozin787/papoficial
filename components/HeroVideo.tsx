@@ -17,15 +17,21 @@ export function HeroVideo() {
 
   return (
     <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl shadow-2xl overflow-hidden">
+      {!playing && (
+        <img
+          src={POSTER_URL}
+          alt="Pré-visualização do vídeo"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      )}
       <video
         ref={videoRef}
         src={VIDEO_URL}
-        poster={POSTER_URL}
         controls={playing}
         playsInline
         onPause={() => setPlaying(false)}
         onEnded={() => setPlaying(false)}
-        className="h-full w-full object-contain"
+        className={`h-full w-full object-contain${playing ? '' : ' invisible'}`}
       />
       {!playing && (
         <button

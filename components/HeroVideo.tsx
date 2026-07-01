@@ -25,7 +25,7 @@ export function HeroVideo() {
         playsInline
         onPause={() => setPlaying(false)}
         onEnded={() => setPlaying(false)}
-        className="h-full w-full object-cover"
+        className="h-full w-full object-contain"
       />
       {!playing && (
         <button

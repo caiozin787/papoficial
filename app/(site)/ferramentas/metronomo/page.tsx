@@ -23,7 +23,7 @@ export default function MetronomePage() {
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 text-primary mb-4">
           <Clock className="w-8 h-8" />
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Metrônomo Pro</h1>
+        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Metrónomo</h1>
         <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
           Defina seu tempo, escolha o compasso e ajuste as subdivisões para um treino avançado.
         </p>

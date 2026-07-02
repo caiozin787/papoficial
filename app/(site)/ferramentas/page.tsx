@@ -24,7 +24,7 @@ export default function ToolsPage() {
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {tools.map((tool) => (
-          <ToolCard key={tool.href} icon={tool.icon} title={tool.title} description={tool.description} badge={tool.badge} href={tool.href} />
+          <ToolCard key={tool.href} icon={tool.icon} title={tool.title} description={tool.description} href={tool.href} />
         ))}
       </div>
     </div>
